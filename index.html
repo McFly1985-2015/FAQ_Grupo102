@@ -23,11 +23,14 @@
       <button class="chip" type="button" data-q="¿Cuál es el uniforme de gala?">Uniforme</button>
       <button class="chip" type="button" data-q="¿Qué sabemos de graduación?">Graduación</button>
       <button class="chip" type="button" data-q="¿Cuál es la actividad de convivencia deportiva del grupo 102?">Convivencia</button>
+      <button class="chip" type="button" data-q="¿Dónde se publican las guías?">Guías</button>
+      <button class="chip" type="button" data-q="¿Qué hacer si se pierde una chamarra?">Objetos perdidos</button>
+      <button class="chip" type="button" data-q="¿Cuáles son los recordatorios importantes?">Recordatorios</button>
     </div>
     <div id="chat" class="chat" aria-live="polite"></div>
     <form id="chatForm" class="composer" novalidate>
       <input id="question" type="text" autocomplete="off" enterkeyhint="send" placeholder="Escribe tu pregunta…" aria-label="Escribe tu pregunta">
-      <button id="sendButton" type="button" aria-label="Enviar pregunta">Enviar</button>
+      <button id="sendButton" type="submit" aria-label="Enviar pregunta">Enviar</button>
     </form>
     <div class="footer">La información puede cambiar. Confirma fechas y avisos recientes con el colegio.</div>
   </section>
@@ -44,19 +47,296 @@
     if (!chat || !form || !input || !sendButton) return;
 
     const faq = [
-      { k: ['convivencia', 'convivencia deportiva', 'actividad convivencia', 'color rojo', 'snacks', 'puesto compartido'], a: 'Para la convivencia deportiva: grupo 102, color rojo, puesto compartido con el grupo 101 y actividad asignada de snacks.' },
-      { k: ['cuantos alumnos', 'cantidad alumnos', 'numero alumnos', '21 alumnos', 'ninos en el grupo'], a: 'El grupo 102 está integrado por 21 alumnos.' },
-      { k: ['justificante', 'justificacion', 'inasistencia', 'comprobante medico', 'receta medica'], a: 'Envía el justificante a cbc.prefecturanm@calmecac.edu.mx. Incluye nombre completo del alumno, grupo 102, fecha de la ausencia, motivo y receta o constancia cuando corresponda.\n\nAsunto sugerido: Justificante de inasistencia – Nombre del alumno – Grupo 102.' },
-      { k: ['hijo falta', 'va a faltar', 'falto a clases', 'tarea por ausencia'], a: 'Revisa el grupo para identificar tareas y avisos. Si la falta requiere justificación, envía la receta o comprobante a cbc.prefecturanm@calmecac.edu.mx con los datos del alumno.' },
-      { k: ['enfermo', 'enfermedad', 'influenza', 'contagio'], a: 'Si el alumno está enfermo, se recomienda no enviarlo a clases para evitar contagios. Envía el justificante médico al correo de Prefectura y revisa los avisos vigentes del colegio.' },
-      { k: ['uniforme de gala', 'uniforme gala', 'fotografia', 'fotos'], a: 'Para eventos de gala se considera camisa oficial, corbata, pantalón o falda correspondiente, zapatos limpios y presentación cuidada. Confirma el aviso específico del evento.' },
-      { k: ['vestimenta', 'tematica', 'san valentin', 'chino', 'patrick'], a: 'Cuando existe vestimenta temática, el colegio normalmente comunica el tema y las condiciones con anticipación. Revisa siempre el aviso más reciente.' },
-      { k: ['graduacion', 'foto graduacion', 'fotografias graduacion'], a: 'La fecha de fotografías de graduación debe confirmarse en el aviso vigente. Para la sesión, normalmente se solicita uniforme de gala completo, cabello peinado, zapatos limpios y corbata correctamente colocada.' },
-      { k: ['estancia', 'guarderia', 'suspension'], a: 'No siempre hay estancia durante una suspensión especial. Debe confirmarse para cada evento en el aviso más reciente.' },
-      { k: ['pago', 'pagos', 'comprobante pago', 'administracion'], a: 'El historial menciona un correo de pagos, pero la dirección no quedó legible en el texto. Para evitar enviar información al contacto equivocado, confirma la dirección vigente directamente con Administración del colegio.' },
-      { k: ['correo', 'contacto', 'prefectura'], a: 'Para justificantes de faltas, el correo actualizado es cbc.prefecturanm@calmecac.edu.mx.' },
-      { k: ['hola', 'buenos dias', 'buenas tardes'], a: '¡Hola! Puedes preguntarme sobre faltas, justificantes, uniforme, graduación, convivencia, pagos o información general del grupo 102.' }
-    ];
+      {
+            "k": [
+                  "convivencia",
+                  "convivencia deportiva",
+                  "actividad convivencia",
+                  "color rojo",
+                  "snacks",
+                  "puesto compartido"
+            ],
+            "a": "Para la convivencia deportiva: grupo 102, color rojo, puesto compartido con el grupo 101 y actividad asignada de snacks."
+      },
+      {
+            "k": [
+                  "cuantos alumnos",
+                  "cantidad alumnos",
+                  "numero alumnos",
+                  "21 alumnos",
+                  "ninos en el grupo"
+            ],
+            "a": "El grupo 102 está integrado por 21 alumnos."
+      },
+      {
+            "k": [
+                  "justificante",
+                  "justificacion",
+                  "inasistencia",
+                  "comprobante medico",
+                  "receta medica",
+                  "donde envio justificante"
+            ],
+            "a": "Envía el justificante a cbc.prefecturanm@calmecac.edu.mx. Incluye nombre completo del alumno, grupo 102, fecha de la ausencia, motivo y receta o constancia cuando corresponda.\n\nAsunto sugerido: Justificante de inasistencia – Nombre del alumno – Grupo 102."
+      },
+      {
+            "k": [
+                  "hijo falta",
+                  "hijo falto",
+                  "va a faltar",
+                  "falto a clases",
+                  "tarea por ausencia",
+                  "que hago si mi hijo falta"
+            ],
+            "a": "Revisa el grupo para tareas o avisos. Si la ausencia es por enfermedad y requiere justificación, envía la receta o comprobante al colegio según las indicaciones vigentes."
+      },
+      {
+            "k": [
+                  "hijo enfermo",
+                  "esta enfermo",
+                  "enfermedad",
+                  "influenza",
+                  "contagio",
+                  "que pasa si mi hijo esta enfermo"
+            ],
+            "a": "Se recomienda no enviarlo a clases para evitar contagios. En diversos momentos del ciclo se han aplicado protocolos por influenza y enfermedades respiratorias; revisa los avisos vigentes del colegio."
+      },
+      {
+            "k": [
+                  "estancia",
+                  "guarderia",
+                  "suspension especial",
+                  "habra estancia",
+                  "habra guarderia"
+            ],
+            "a": "No siempre habrá estancia o guardería cuando exista una suspensión especial. Se debe confirmar cada evento, ya que ha habido ocasiones en las que se informó que no habría estancia."
+      },
+      {
+            "k": [
+                  "cuando se usa uniforme de gala",
+                  "uniforme de gala",
+                  "uniforme gala",
+                  "eventos gala"
+            ],
+            "a": "El uniforme de gala se utiliza en eventos especiales, como fotografías de graduación, ceremonias oficiales y actividades que indique la escuela."
+      },
+      {
+            "k": [
+                  "que incluye el uniforme de gala",
+                  "incluye uniforme gala",
+                  "camisa corbata",
+                  "pantalon falda zapatos"
+            ],
+            "a": "El uniforme de gala incluye camisa oficial, corbata, pantalón o falda correspondiente, zapatos limpios y una presentación cuidada."
+      },
+      {
+            "k": [
+                  "vestimenta tematica",
+                  "ropa tematica",
+                  "san valentin",
+                  "ano nuevo chino",
+                  "patrick"
+            ],
+            "a": "Generalmente se permite ropa relacionada con el evento, por ejemplo San Valentín, Año Nuevo Chino o St. Patrick’s Day. La escuela informa las condiciones con anticipación."
+      },
+      {
+            "k": [
+                  "cuando es la toma de fotografias de graduacion",
+                  "fecha fotos graduacion",
+                  "fotografias de graduacion",
+                  "foto grupal"
+            ],
+            "a": "La escuela informa una fecha específica. Es importante asistir porque normalmente no hay reposición para la fotografía grupal. Confirma la fecha en el aviso vigente."
+      },
+      {
+            "k": [
+                  "que deben llevar los ninos ese dia",
+                  "que llevar fotos graduacion",
+                  "uniforme fotos graduacion",
+                  "cabello peinado"
+            ],
+            "a": "Para las fotografías de graduación deben llevar uniforme de gala completo, cabello peinado, zapatos limpios y la corbata correctamente colocada."
+      },
+      {
+            "k": [
+                  "ya se termino de pagar graduacion",
+                  "pago graduacion",
+                  "pagos graduacion",
+                  "termine de pagar graduacion"
+            ],
+            "a": "Los pagos de graduación se realizan por etapas. Conserva todos los comprobantes y solicita confirmación de recepción para verificar tu saldo."
+      },
+      {
+            "k": [
+                  "como se hacen las cooperaciones",
+                  "cooperaciones grupo",
+                  "transferencia cooperacion",
+                  "mama coordina"
+            ],
+            "a": "Las cooperaciones del grupo normalmente se realizan mediante transferencia a la mamá que coordina cada actividad."
+      },
+      {
+            "k": [
+                  "que poner en transferencia",
+                  "concepto transferencia",
+                  "nombre del nino transferencia",
+                  "datos del pago"
+            ],
+            "a": "En la transferencia escribe el nombre del niño y el concepto del pago, por ejemplo pizza, camiseta, cumpleaños u otra actividad."
+      },
+      {
+            "k": [
+                  "debo enviar comprobante",
+                  "enviar comprobante",
+                  "mandar comprobante",
+                  "comprobante transferencia"
+            ],
+            "a": "Sí. Enviar el comprobante facilita el control y evita confusiones."
+      },
+      {
+            "k": [
+                  "pago no registrado",
+                  "no aparece pago",
+                  "no me aparece un pago registrado",
+                  "falta mi pago"
+            ],
+            "a": "Comparte el comprobante lo antes posible con la persona responsable del registro para que pueda verificarlo."
+      },
+      {
+            "k": [
+                  "es obligatorio participar",
+                  "participacion obligatoria",
+                  "cooperacion voluntaria",
+                  "evento obligatorio"
+            ],
+            "a": "No. La participación y las cooperaciones de las convivencias suelen ser voluntarias."
+      },
+      {
+            "k": [
+                  "hijo no participa",
+                  "no participa convivencia",
+                  "no participar evento",
+                  "llevar lonche"
+            ],
+            "a": "Si tu hijo no participa, puede llevar su lonche habitual."
+      },
+      {
+            "k": [
+                  "como se organizan los alimentos",
+                  "organizacion alimentos",
+                  "encuesta comida",
+                  "lista participantes"
+            ],
+            "a": "Generalmente se realiza una encuesta, se prepara una lista de participantes, se define la cooperación por alumno y una o varias mamás coordinan las compras y entregas."
+      },
+      {
+            "k": [
+                  "olvide enviar regalo",
+                  "regalo de cumpleanos tarde",
+                  "regalo posteriormente",
+                  "regalo cumpleanos"
+            ],
+            "a": "El regalo puede enviarse posteriormente. Ha sido una práctica común dentro del grupo."
+      },
+      {
+            "k": [
+                  "quien coordina los festejos",
+                  "festejo en salon",
+                  "coordinar cumpleanos",
+                  "maestra titular cumpleanos"
+            ],
+            "a": "Normalmente se contacta a la maestra titular para coordinar la fecha, el horario y la logística del festejo dentro del salón."
+      },
+      {
+            "k": [
+                  "que se acostumbra regalar",
+                  "que regalar cumpleanos",
+                  "regalos cumpleanos",
+                  "pequenos detalles"
+            ],
+            "a": "No existe una obligación. Los niños suelen llevar pequeños detalles según las posibilidades de cada familia."
+      },
+      {
+            "k": [
+                  "avisar antes del cumpleanos",
+                  "debo avisar cumpleanos",
+                  "aviso cumpleanos hijo"
+            ],
+            "a": "Sí. Avisar con anticipación ayuda a que las familias se organicen."
+      },
+      {
+            "k": [
+                  "donde se publican las guias",
+                  "guias de estudio",
+                  "plataforma escolar",
+                  "folder guias"
+            ],
+            "a": "Las guías se publican en la plataforma escolar y ocasionalmente también se envían impresas en el folder."
+      },
+      {
+            "k": [
+                  "no veo una guia",
+                  "guia no aparece",
+                  "falta guia",
+                  "buscar guia"
+            ],
+            "a": "Primero revisa la plataforma y el folder. Si no aparece, pregunta en el grupo porque suele ser una duda recurrente."
+      },
+      {
+            "k": [
+                  "perdio una tarea",
+                  "perdio un libro",
+                  "libro perdido",
+                  "tarea perdida",
+                  "otros salones lockers"
+            ],
+            "a": "Avisa a la maestra y pregunta en el grupo, ya que frecuentemente las tareas o libros aparecen en otros salones o lockers."
+      },
+      {
+            "k": [
+                  "se pierde chamarra",
+                  "termo perdido",
+                  "sudadera perdida",
+                  "objetos perdidos",
+                  "pertenencia perdida"
+            ],
+            "a": "Revisa el área de objetos perdidos, pregunta en el grupo y verifica que la pertenencia tenga el nombre marcado."
+      },
+      {
+            "k": [
+                  "como evitar perdidas",
+                  "marcar pertenencias",
+                  "marcar uniforme",
+                  "nombre en las cosas"
+            ],
+            "a": "Marca con nombre todas las pertenencias: chamarra, sudadera, termo, lonchera y folder."
+      },
+      {
+            "k": [
+                  "recordatorios importantes",
+                  "que debo recordar",
+                  "lista recordatorios",
+                  "recomendaciones generales"
+            ],
+            "a": "Recordatorios importantes:\n✓ Revisar el folder diariamente.\n✓ Revisar la plataforma al menos una vez por semana.\n✓ Guardar todos los comprobantes de pago.\n✓ Marcar uniformes y pertenencias con nombre.\n✓ Informar ausencias por enfermedad.\n✓ Confirmar participación en eventos antes de las fechas límite.\n✓ Leer completamente los comunicados antes de preguntar en el grupo."
+      },
+      {
+            "k": [
+                  "correo",
+                  "contacto",
+                  "prefectura"
+            ],
+            "a": "Para justificantes de faltas, el correo actualizado es cbc.prefecturanm@calmecac.edu.mx."
+      },
+      {
+            "k": [
+                  "hola",
+                  "buenos dias",
+                  "buenas tardes"
+            ],
+            "a": "¡Hola! Puedes preguntarme sobre faltas, enfermedad, estancia, uniformes, graduación, pagos, convivencias, cumpleaños, tareas, guías u objetos perdidos."
+      }
+];
 
     function normalizeText(text) {
       return String(text || '').toLowerCase().normalize('NFD')
